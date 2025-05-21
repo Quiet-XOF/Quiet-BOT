@@ -15,16 +15,20 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print(f"Logged in as {bot.user.name}")
     print(f"Channels loaded: {channel_config.channels}")
-    # TODO reply to first channel if main_channel is not configured
+    # TODO check main_channel is valid id
     await main_channel.send("I am online :butterfly:")
 
 @bot.command(name="getchannel", help="Check a channel ID.")
 async def getchannel(ctx, channel_name: str):
-    # TODO try/exception
-    if channel_config.get(channel_name):
-        await ctx.send("Channel found.")
-    else:
-        await ctx.send("Channel not found.")
+    try:
+        if channel_config.get(channel_name):
+            await ctx.send("Channel found.")
+        else:
+            await ctx.send("Channel not found.")
+    except Exception as e:
+        # TODO check if error_channel valid
+        await ctx.send(f"Error: {e}")
+        print(f"Error: {e}")
 
 @bot.command(name="setchannel", help="Override a channel ID.")
 async def setchannel(ctx, channel_name, channel_id):
@@ -32,6 +36,7 @@ async def setchannel(ctx, channel_name, channel_id):
         channel_config.set(channel_name, channel_id)
         await ctx.send(f"Done.")
     except Exception as e:
+        # TODO check if error_channel valid
         await ctx.send(f"Error: {e}")
         print(f"Error: {e}")
 

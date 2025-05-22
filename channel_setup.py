@@ -21,10 +21,10 @@ class channel_config:
             json.dump(self.channels, file, indent=4)
 
     def get(self, channel_name):
-        print("Getting channel...")
+        print(f"Getting channel {channel_name}")
         return self.channels.get(channel_name)
 
     def set(self, channel_name, channel_id):
-        print("Setting new channel id...")
+        print(f"Setting {channel_name} to {channel_id}")
         self.channels[channel_name] = channel_id
         self.save()

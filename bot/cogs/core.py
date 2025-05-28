@@ -1,10 +1,9 @@
 from discord.ext import commands
-from ..quietbot import QuietBot
 
 
 class Core(commands.Cog):
-    def __init__(self, QuietBot):
-        self.bot = QuietBot
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command(name="ping", help="Check latency.")
     async def ping(self, ctx):

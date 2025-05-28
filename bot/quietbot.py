@@ -13,14 +13,18 @@ class QuietBot(commands.Bot):
         super().__init__(command_prefix=command_prefix, intents=intents, help_command = help_command)
 
     async def load_cogs(self):
-        for file in os.listdir("bot/cogs"):
-            if file.endswith(".py"):
-                cog_check = f"bot.cogs.{file[:-3]}"
-                try:
-                    await self.load_extension(cog_check)
-                    print(f"Loaded cog: {cog_check}")
-                except Exception as e:
-                    print(f"{cog_check} load failed: {e}")
+        #for file in os.listdir("bot/cogs"):
+        #    if file.endswith(".py"):
+        #        cog_check = f"bot.cogs.{file[:-3]}"
+        #        try:
+        #            await self.load_extension(cog_check)
+        #            print(f"Loaded cog: {cog_check}")
+        #        except Exception as e:
+        #            print(f"{cog_check} load failed: {e}")
+        await self.load_extension("bot.cogs.channels")
+        await self.load_extension("bot.cogs.core")
+        await self.load_extension("bot.cogs.ytdl")
+        # TODO create directory for os paths
 
     #@check_channels("main")
     async def on_ready(self):

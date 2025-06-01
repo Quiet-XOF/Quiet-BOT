@@ -1,3 +1,4 @@
 secrets.py
 Pipfile
 Pipfile.lock
+bot/utils/paths.py

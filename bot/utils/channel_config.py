@@ -1,16 +1,28 @@
+import logging
 import os
 
 
+logger = logging.getLogger(__name__)
+
 class ChannelConfig:
-    def __init__(self):
-        self.channels_file = os.path.join(os.path.dirname(__file__), "channels.py")
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(ChannelConfig, cls).__new__(cls)
+            cls._instance._init_config()
+        return cls._instance
+
+    def _init_config(self):
+#   def __init__(self):
+        self.channels_file = os.path.join(os.path.dirname(__file__), "config.py")
         self.channels = self.load()
 
     def get(self, channel_name):
         return self.channels.get(channel_name)
 
     def set(self, channel_name, channel_id):
-        print(f"Setting {channel_name} to {channel_id}")
+        logger.info(f"Setting {channel_name} to {channel_id}")
         self.channels[channel_name] = int(channel_id)
         self.save()
 
@@ -24,9 +36,9 @@ class ChannelConfig:
             return f"Error saving channels: {e}"
 
     def load(self):
-        print("Loading channels...")
+        logger.info("Loading channels...")
         if not os.path.exists(self.channels_file):
-            print("Error: File missing. Creating new file.")
+            logger.error("Error: File missing. Creating new file.")
             self.channels = {"download": None, "error": None, "main": None}
             self.save()
             return self.channels
@@ -38,6 +50,6 @@ class ChannelConfig:
             self.channels = channels
             return self.channels
         except Exception as e:
-            print(f"load error: {e}")
+            logger.error(f"load error: {e}")
             self.channels = {}
             return {}

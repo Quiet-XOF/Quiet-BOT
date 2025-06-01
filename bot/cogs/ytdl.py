@@ -1,10 +1,13 @@
+import logging
 import os
 import yt_dlp
 from discord.ext import commands
-from ..utils.paths import paths
+from ..utils.config import paths
 from ..utils.checks import check_channels
 from ..utils.channel_config import ChannelConfig
 
+
+logger = logging.getLogger(__name__)
 
 class YTDL(commands.Cog):
     def __init__(self, bot):
@@ -18,7 +21,7 @@ class YTDL(commands.Cog):
             path = os.path.join(custom_path, default_path)
         else:
             path = default_path
-        print(f"YTDL download path: {path}")
+        logger.info(f"YTDL download path: {path}")
         return path
 
     @commands.command(name="ytdl")
@@ -31,14 +34,13 @@ class YTDL(commands.Cog):
         import asyncio
         loop = asyncio.get_event_loop()
         try:
-            print("Trying to download.")
+            logger.info("Trying to download.")
             video_info = await loop.run_in_executor(
                 None,
                 lambda: yt_dlp.YoutubeDL().extract_info(url, download=False)
             )
             video_title = yt_dlp.utils.sanitize_filename(video_info["title"])
             destination_file = os.path.join(self.path, f"{video_title}.mp4")
-            print(f"{video_title}")
             # only checks name, add more qualifiers later
             if os.path.exists(destination_file):
                 await ctx.send("Video already downloaded. Task aborted.")
@@ -54,9 +56,10 @@ class YTDL(commands.Cog):
                 None,
                 lambda: yt_dlp.YoutubeDL(ydl_opts).download(url)
             )
+            logger.info(f"Video downloaded: {video_title}.mp4{video_title}")
             await ctx.send(f"Video downloaded: {video_title}.mp4")
         except Exception as e:
-            print(f"ytdl error: {e}")
+            logger.error(f"ytdl error: {e}")
             await ctx.bot_channels["error"].send(f"ytdl error: {e}")
 
 async def setup(bot):

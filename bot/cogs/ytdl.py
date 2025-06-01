@@ -2,9 +2,8 @@ import logging
 import os
 import yt_dlp
 from discord.ext import commands
-from ..utils.config import paths
+from ..utils.channel_config import channel_config
 from ..utils.checks import check_channels
-from ..utils.channel_config import ChannelConfig
 
 
 logger = logging.getLogger(__name__)
@@ -16,7 +15,7 @@ class YTDL(commands.Cog):
         
     def check_path(self):
         default_path = "YouTube-Downloads"
-        custom_path = paths.get("video_download")
+        custom_path = channel_config.getpath("video_download")
         if custom_path:
             path = os.path.join(custom_path, default_path)
         else:
@@ -26,7 +25,10 @@ class YTDL(commands.Cog):
 
     @commands.command(name="ytdl")
     @check_channels("error")
-    async def ytdl(self, ctx, url):
+    async def ytdl(self, ctx, url=None):
+        if not url:
+            await ctx.send("No url given, please provide a valid url.")
+            return
         await ctx.send("Attempting to download video... :tv:")
         if not os.path.exists(self.path):
             await ctx.send("Creating \"YouTube Download\" folder.")

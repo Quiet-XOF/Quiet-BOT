@@ -1,11 +1,10 @@
 import logging
 from discord.ext import commands
 from ..utils.checks import check_channels
-from ..utils.channel_config import ChannelConfig
+from ..utils.channel_config import channel_config
 
 
 logger = logging.getLogger(__name__)
-channel_config = ChannelConfig()
 
 class Channels(commands.Cog):
     def __init__(self, bot):
@@ -22,7 +21,7 @@ class Channels(commands.Cog):
                 await ctx.send(response if response else "No channels configured.")
             else:
                 logger.info("Getting one channel...")
-                channel_id = channel_config.get(channel_name)
+                channel_id = channel_config.getchannel(channel_name)
                 if channel_id:
                     await ctx.send(f"{channel_name}: {channel_id}")
                 else:
@@ -37,7 +36,7 @@ class Channels(commands.Cog):
         # TODO add channels such as logs, admin information, etc
         try:
             # TODO check if ID in THIS server
-            channel_config.set(channel_name, channel_id)
+            channel_config.setchannel(channel_name, channel_id)
             await ctx.send(f"{channel_name} has been set to {channel_id}")
         except Exception as e:
             logger.error(f"setchannel error: {e}")

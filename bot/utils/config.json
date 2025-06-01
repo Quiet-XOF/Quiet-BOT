@@ -5,7 +5,7 @@
         "main": null
     },
     "paths" : {
-        "video_download" : null,
+        "video_download" : "/home/quiet/Videos",
         "image_download" : null
     }
 }

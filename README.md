@@ -9,4 +9,4 @@ WIP\
 !getchannel !setchannel\
 -Allows channel configuration\
 !ytdl\
--Download YT video w/ url\
+-Download YT video w/ url

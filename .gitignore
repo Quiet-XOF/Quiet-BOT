@@ -1,4 +1,4 @@
-secrets.py
 Pipfile
 Pipfile.lock
-bot/utils/paths.py
+secrets.json
+bot/utils/config.json

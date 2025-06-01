@@ -9,8 +9,9 @@ default = {
     "paths": {"video_download": None, "image_download": None}
 }
 
-# TODO this needs to be more flexible and have more validations
 class ChannelConfig:
+    """ Inbetween for channel commands and handling json files """
+    # TODO this needs to be more flexible and have more validations
     _instance = None
 
     def __new__(cls):

@@ -7,6 +7,8 @@ from ..utils.channel_config import channel_config
 logger = logging.getLogger(__name__)
 
 class Channels(commands.Cog):
+    """ For viewing and changing channels """
+    # TODO include path updates in this file
     def __init__(self, bot):
         self.bot = bot
 

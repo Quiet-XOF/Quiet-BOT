@@ -1,6 +1,6 @@
 from discord.ext import commands
 from ..utils.checks import check_channels
-from ..utils.config import ChannelConfig
+from ..utils.channel_config import ChannelConfig
 
 
 channel_config = ChannelConfig()

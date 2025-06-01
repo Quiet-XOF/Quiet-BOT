@@ -1,14 +1,25 @@
 import os
 import yt_dlp
 from discord.ext import commands
+from ..utils.paths import paths
 from ..utils.checks import check_channels
-from ..utils.config import ChannelConfig
+from ..utils.channel_config import ChannelConfig
 
 
 class YTDL(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.path = "YouTube-Downloads"
+        self.path = self.check_path()
+        
+    def check_path(self):
+        default_path = "YouTube-Downloads"
+        custom_path = paths.get("video_download")
+        if custom_path:
+            path = os.path.join(custom_path, default_path)
+        else:
+            path = default_path
+        print(f"YTDL download path: {path}")
+        return path
 
     @commands.command(name="ytdl")
     @check_channels("error")

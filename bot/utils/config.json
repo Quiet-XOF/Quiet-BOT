@@ -1,0 +1,11 @@
+{
+    "channels" : {
+        "download": null, 
+        "error": null, 
+        "main": null
+    },
+    "paths" : {
+        "video_download" : null,
+        "image_download" : null
+    }
+}

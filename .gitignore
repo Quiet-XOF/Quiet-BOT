@@ -1,3 +1,4 @@
 Pipfile
 Pipfile.lock
-*.json
+bot/utils/config.json
+secrets.json

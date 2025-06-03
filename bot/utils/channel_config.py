@@ -60,7 +60,7 @@ class ChannelConfig:
         if not os.path.exists(self.config_file):
             logger.error("Error: File missing. Creating new file.")
             with open(self.config_file, "w") as file:
-                json.dump(default, file, indent=2)
+                json.dump(default, file, indent=4)
             return default
         try:
             with open(self.config_file, "r") as file:

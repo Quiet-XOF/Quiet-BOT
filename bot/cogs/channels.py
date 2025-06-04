@@ -18,11 +18,9 @@ class Channels(commands.Cog):
         logger.info("Getting channels...")
         try:
             if channel_name is None:
-                logger.info("Getting all channels...")
                 response = "\n".join(f"{cn}: {ci}" for cn, ci in channel_config.channels.items())
                 await ctx.send(response if response else "No channels configured.")
             else:
-                logger.info("Getting one channel...")
                 channel_id = channel_config.getchannel(channel_name)
                 if channel_id:
                     await ctx.send(f"{channel_name}: {channel_id}")
@@ -43,6 +41,24 @@ class Channels(commands.Cog):
         except Exception as e:
             logger.error(f"setchannel error: {e}")
             await ctx.bot_channels["error"].send(f"setchannel error: {e}")
+
+    @commands.command(name="getpath", help="Check paths")
+    @check_channels("error")
+    async def getpath(self, ctx, path_name=None):
+        logger.info("Getting paths...")
+        try:
+            if path_name is None:
+                response = "\n".join(f"{pn}: {pi}" for pn, pi in channel_config.paths.items())
+                await ctx.send(response if response else "No paths configured.")
+            else:
+                path_id = channel_config.getpath(path_name)
+                if path_id:
+                    await ctx.send(f"{path_name}: {path_id}")
+                else:
+                    await ctx.bot_channels["error"].send(f"{path_name} is not configured.")
+        except Exception as e:
+            logger.error(f"getpath error: {e}")
+            await ctx.bot_channels["error"].send(f"getpath error: {e}")
 
 async def setup(bot):
     await bot.add_cog(Channels(bot))

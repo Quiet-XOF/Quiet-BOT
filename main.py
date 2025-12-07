@@ -46,7 +46,8 @@ class QuietBot(commands.Bot):
             }
             with open("secrets.json", "w") as file:
                 json.dump(default, file, indent=4)
-            sys.exit("The file was missing, so it was created. Please insert your token and try again.")
+            self.logger.error("The file was missing, so it was created. Please insert your token and try again.")
+            sys.exit()
 
     async def setup_hook(self):
         await self.load_extension("cogs.core")
